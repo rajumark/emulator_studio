@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emulator Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <div class="brand">
+        <span class="mark"></span>
+        <h1>Emulator Studio</h1>
+      </div>
+      <div class="bar-actions">
+        <button id="menu-toggle" class="icon" title="Menu" aria-haspopup="true" aria-expanded="false">
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+            <circle cx="7" cy="2.4" r="1.35" fill="currentColor" />
+            <circle cx="7" cy="7" r="1.35" fill="currentColor" />
+            <circle cx="7" cy="11.6" r="1.35" fill="currentColor" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="menu" class="menu" hidden>
+        <p class="menu-label">Theme</p>
+        <button class="menu-item" data-theme="auto"><span class="tick"></span>Auto</button>
+        <button class="menu-item" data-theme="light"><span class="tick"></span>Light</button>
+        <button class="menu-item" data-theme="dark"><span class="tick"></span>Dark</button>
+        <div class="menu-sep"></div>
+        <button class="menu-item" id="menu-sdk"><span class="tick"></span>SDK path…</button>
+        <button class="menu-item" id="menu-about"><span class="tick"></span>About</button>
+      </div>
+    </header>
+
+    <section id="settings" class="settings" hidden>
+      <div class="settings-row">
+        <input id="sdk-input" type="text" spellcheck="false" placeholder="Path to Android SDK folder" />
+        <button id="sdk-save" class="primary">Save</button>
+      </div>
+      <p id="settings-note" class="note"></p>
+    </section>
+
+    <main id="list" class="list"></main>
+
+    <div id="card-menu" class="menu floating" hidden></div>
+
+    <div id="about" class="overlay" hidden>
+      <div class="dialog">
+        <span class="mark lg"></span>
+        <h2>Emulator Studio</h2>
+        <p class="dim" id="about-version">—</p>
+        <p class="dim">Created by <strong id="about-creator">—</strong></p>
+        <button id="about-close" class="primary">Close</button>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script src="main.js"></script>
+  </body>
+</html>

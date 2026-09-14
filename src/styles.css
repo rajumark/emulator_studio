@@ -1,0 +1,289 @@
+/* Light is the base palette; dark is layered on top twice, so an explicit
+   choice wins in both directions and "auto" follows the system. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --border: #e4e6eb;
+  --text: #16181d;
+  --muted: #6d7280;
+  --accent: #3b6cf6;
+  --danger: #e0483b;
+  --danger-soft: #fdeceb;
+  --on: #1aa06d;
+  --shadow: 0 1px 2px rgba(16, 18, 24, 0.05);
+  --pop-shadow: 0 6px 24px rgba(16, 18, 24, 0.14);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131417;
+    --surface: #1c1e23;
+    --border: #2c2f36;
+    --text: #f0f1f3;
+    --muted: #9a9fa9;
+    --accent: #6b93ff;
+    --danger: #ff7a6b;
+    --danger-soft: #3a2321;
+    --on: #3ecf8e;
+    --shadow: none;
+    --pop-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #131417;
+  --surface: #1c1e23;
+  --border: #2c2f36;
+  --text: #f0f1f3;
+  --muted: #9a9fa9;
+  --accent: #6b93ff;
+  --danger: #ff7a6b;
+  --danger-soft: #3a2321;
+  --on: #3ecf8e;
+  --shadow: none;
+  --pop-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+/* A class that sets `display` would otherwise beat the UA's [hidden] rule. */
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Ubuntu, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand { display: flex; align-items: center; gap: 8px; }
+
+.mark {
+  width: 15px;
+  height: 15px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, var(--accent), #8b5cf6);
+  flex: none;
+}
+.mark.lg { width: 40px; height: 40px; border-radius: 11px; }
+
+h1 { font-size: 13px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+
+.bar-actions { display: flex; align-items: center; gap: 6px; }
+
+button {
+  font: inherit;
+  font-weight: 550;
+  border-radius: 7px;
+  border: 1px solid transparent;
+  padding: 4px 11px;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, opacity 0.12s ease;
+}
+button:disabled { opacity: 0.45; cursor: default; }
+
+.ghost { background: transparent; border-color: var(--border); color: var(--muted); font-size: 12px; }
+.ghost:hover:not(:disabled) { background: var(--surface); color: var(--text); }
+
+.icon {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--muted);
+  padding: 4px 7px;
+  display: grid;
+  place-items: center;
+}
+.icon:hover { background: var(--surface); color: var(--text); }
+
+.primary { background: var(--accent); color: #fff; }
+.primary:hover:not(:disabled) { filter: brightness(1.07); }
+
+.danger { background: var(--danger-soft); color: var(--danger); }
+.danger:hover:not(:disabled) { filter: brightness(0.97); }
+
+/* ---- dropdown menu ---- */
+.menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  right: 8px;
+  width: max-content;
+  min-width: 124px;
+  max-width: calc(100vw - 16px);
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  box-shadow: var(--pop-shadow);
+}
+
+.menu-label {
+  margin: 4px 8px 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  padding: 5px 8px;
+  white-space: nowrap;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font-weight: 450;
+  text-align: left;
+}
+.menu-item:hover { background: var(--bg); }
+
+/* Reserve the tick column so labels line up whether or not one is shown. */
+.tick { width: 11px; flex: none; color: var(--accent); font-size: 11px; }
+.menu-item[aria-checked="true"] .tick::before { content: "✓"; }
+.menu-item[aria-checked="true"] { font-weight: 600; }
+
+.menu-sep { height: 1px; margin: 4px 2px; background: var(--border); }
+
+/* ---- sdk path ---- */
+.settings { padding: 8px 10px 0; }
+.settings-row { display: flex; gap: 6px; }
+
+input[type="text"] {
+  flex: 1;
+  font: inherit;
+  padding: 5px 9px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  user-select: text;
+}
+input[type="text"]:focus { outline: none; border-color: var(--accent); }
+
+.note { margin: 6px 1px 0; font-size: 11.5px; color: var(--muted); }
+.note.error { color: var(--danger); }
+
+/* ---- emulator list ---- */
+.list { padding: 8px 10px 12px; display: flex; flex-direction: column; gap: 6px; }
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 11px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  box-shadow: var(--shadow);
+}
+
+/* Primary action, leading the row. */
+.play {
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.play.start { background: var(--accent); color: #fff; }
+.play.stop { background: var(--danger-soft); color: var(--danger); }
+.play.start:hover:not(:disabled) { filter: brightness(1.08); }
+.play.stop:hover:not(:disabled) { filter: brightness(0.96); }
+.card.booting .play { animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: 0.3; } }
+
+.meta { flex: 1; min-width: 0; }
+.name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.status {
+  font-size: 11.5px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.empty { text-align: center; color: var(--muted); padding: 38px 20px; font-size: 12px; }
+.empty strong { display: block; color: var(--text); font-size: 13px; margin-bottom: 4px; }
+
+/* ---- about ---- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: min(260px, calc(100% - 40px));
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--pop-shadow);
+  text-align: center;
+}
+.dialog h2 { margin: 8px 0 0; font-size: 14px; font-weight: 600; }
+.dialog .dim { margin: 0; font-size: 12px; color: var(--muted); }
+.dialog button { margin-top: 12px; width: 100%; }
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  max-width: calc(100% - 24px);
+  padding: 7px 12px;
+  border-radius: 8px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  border: 1px solid color-mix(in srgb, var(--danger) 25%, transparent);
+  font-size: 12px;
+  box-shadow: var(--pop-shadow);
+}
+
+/* Per-card overflow menu, positioned in JS against its trigger. */
+.menu.floating { position: fixed; top: 0; left: 0; z-index: 20; min-width: 116px; }
+
+.icon.sm { padding: 3px 5px; border-color: transparent; }
+.card:hover .icon.sm { border-color: var(--border); }
+
+.menu-item:disabled { opacity: 0.4; cursor: default; }
+.menu-item:disabled:hover { background: transparent; }
